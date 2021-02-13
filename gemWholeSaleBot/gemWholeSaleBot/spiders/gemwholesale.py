@@ -7,6 +7,7 @@ class GemwholesaleSpider(scrapy.Spider):
     start_urls = ['https://www.gemwholesale.co.uk/acatalog/Customer-Returns.html']
 
     def parse(self, response):
+        items=dict()
         productContainer=response.xpath('//div[@class="product-details"]')
         for product in productContainer:
             print(product)
@@ -17,5 +18,14 @@ class GemwholesaleSpider(scrapy.Spider):
             sold_at=product.xpath('table[1]/tr[2]/td[2]/span/text()').get()
             stock_list=product.css('.product-text a::attr(href)').get()
             print(title,image,cost_price,catalogue_value,sold_at,stock_list)
+            items.update({
+                'title':title,
+                'image':image,
+                'cost_price':cost_price,
+                'catalogue_value':catalogue_value,
+                'sold_at':sold_at,
+                'stock_list':stock_list
+            })
+            yield items
 
         print(response)
