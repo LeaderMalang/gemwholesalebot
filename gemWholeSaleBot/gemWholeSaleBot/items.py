@@ -8,5 +8,13 @@ import scrapy
 
 class GemwholesalebotItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    image=scrapy.Field()
+    image_url=scrapy.Field()
+    cost_price=scrapy.Field()
+    catalogue_value=scrapy.Field()
+    sold_at=scrapy.Field()
+    stock_list=scrapy.Field()
+    parent_page=scrapy.Field()
+    stock_link=scrapy.Field()
+
