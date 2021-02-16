@@ -12,54 +12,36 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-<h1>jQuery Example</h1>
-<p><input type=text size=5 name=a> +
-   <input type=text size=5 name=b> =
-   <span id=result>?</span>
-<p><a href=# id=calculate>calculate server side</a>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <table class="table">
+        <div class="col-md-12 table-responsive">
 
+
+            <table id="myTable" class="table table-striped " style="width:100%" >
+                <thead>
                 <tr>
-                    <th>Sr#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">image</th>
-                    <th scope="col">Image Url</th>
-                    <th scope="col">Cost Price</th>
-                    <th scope="col">Catalogue Value</th>
-                    <th scope="col">Sold at</th>
-                    <th scope="col">Stock List</th>
-                    <th scope="col">Parent Page</th>
-                    <th scope="col">Stock Link</th>
-                    <th scope="col">Updated At</th>
-                    <th scope="col">Created At</th>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Cost Price</th>
+                    <th>Catalogue Value</th>
+                    <th>Sold At</th>
+                    <th>Stock List</th>
+                    <th>New</th>
+                    <th>Parent Page</th>
+                    <th>Stock Link</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                 </tr>
-
-                <tr>
-                    <td scope="row">1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                </tr>
-
-
+                </thead>
             </table>
+
         </div>
     </div>
 
 </div>
 <script type=text/javascript>
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
 <script type="application/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.js') }}"></script>
 <script type="application/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
