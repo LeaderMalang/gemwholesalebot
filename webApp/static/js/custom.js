@@ -26,7 +26,7 @@ $(document).ready(function() {
             var html="<a target='_blank' href='"+data+"' class='btn btn-primary btn-sm'>Stock Link</a>";
         return html
     }
-    $('#myTable').DataTable( {
+    var table=$('#myTable').DataTable( {
         "processing": true,
         "serverSide": true,
         "pagingType": "full_numbers",
@@ -47,7 +47,12 @@ $(document).ready(function() {
             {data: "created_at"},
             {data: "updated_at"},
         ]
-    } );
+    // } );
+        } );
+    setInterval( function () {
+    table.ajax.reload();
+
+}, 30000 );
 
 
 } );

@@ -50,9 +50,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'gemWholeSaleBot.middlewares.GemwholesalebotDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'gemWholeSaleBot.middlewares.GemwholesalebotDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -64,8 +64,15 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'gemWholeSaleBot.pipelines.GemwholesalebotPipeline': 300,
+   'scrapy.pipelines.images.ImagesPipeline': 1
 }
-
+IMAGES_STORE ='img'
+IMAGES_EXPIRES = 30
+IMAGES_THUMBS = {
+    'small': (50, 50),
+    'big': (270, 270),
+}
+MEDIA_ALLOW_REDIRECTS = True
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

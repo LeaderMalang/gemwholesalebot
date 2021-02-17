@@ -1,6 +1,8 @@
 from flask import Flask,render_template,request,jsonify
 from db import con
 import requests
+import telegram
+import pdfkit
 app = Flask(__name__)
 
 
@@ -15,7 +17,7 @@ def getListing():
     columnName_arr = request.args.get('columns')
     order_arr = request.args.get('order')
     searchValue = request.args.get('search[value]')
-
+    searchValue="%"+searchValue+"%"
     # columnIndex = columnIndex_arr[0]['column']
     # columnName = columnName_arr[columnIndex]['data']
     # columnSortOrder = order_arr[0]['dir']
@@ -24,11 +26,8 @@ def getListing():
 
     cnn=con()
     cr =cnn.cursor
-    query = """SELECT `title`,`image_url`, `cost_price`, `catalogue_value`,
-         `sold_at`, `stock_list`, `new`,`parent_page`,stock_link, `created_at`, `updated_at` 
-        
-        
-        FROM `stocks` where title like %s or cost_price like %s order by created_at limit %s offset %s"""
+    query = """SELECT `title`,`image_url`, `cost_price`,`catalogue_value`,`sold_at`, `stock_list`, `new`,`parent_page`,stock_link, `created_at`, `updated_at`
+        FROM `stocks` where title like %s  or cost_price like %s order by created_at limit %s offset %s"""
     allQuery="""SELECT `title`, `image_url`, `cost_price`, `catalogue_value`,
          `sold_at`, `stock_list`, `new`,`parent_page`,stock_link, `created_at`, `updated_at` 
         
@@ -39,8 +38,9 @@ def getListing():
     res = False
     try:
         if searchValue!='':
-          cr.execute(query,rrd)
-        cr.execute(allQuery,allparam)
+            cr.execute(query,rrd)
+        else:
+            cr.execute(allQuery,allparam)
         res = cr.with_rows
     except Exception as ex:
         cnn.connection.rollback()
@@ -64,10 +64,10 @@ def getListing():
                          })
 
     print(listings)
-    itotalQ="""select count(*) from stocks"""
+    itotalQ="""select count(*) from stocks where title like %s or cost_price like %s"""
     param=(searchValue,searchValue)
     try:
-        cr.execute(itotalQ)
+        cr.execute(itotalQ,param)
     except Exception as ex:
         print(ex)
         cnn.connection.rollback()
@@ -85,26 +85,30 @@ def getListing():
     }
 
     return jsonify(response)
+    #return render_template('index.html',data=listings)
 
-@app.route('/send_message')
+@app.route('/send_message',methods=['GET'])
 def send_message():
-
-
-
+    message = request.args.get('title')
+    stock_link = request.args.get('stock_list')
+    url = '/Users/casper.local/Desktop/Dev/Scrapper/webApp/static/stock_list/' + message + '.pdf'
+    pdfkit.from_url(stock_link, url)
+    #Add your own Bot TOKen
     bot_token = '1598350721:AAFA4YMJBqxeVfzIjfMzqbP3PMtsMZSvdsk'
+    #Add your own Bot  Chat ID
     bot_chatID = '1644262765'
-    bot_message="Hello Message Up."
-    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
-    response = requests.get(send_text)
-    print(response)
+    bot = telegram.Bot(token=bot_token)
+    bot.sendMessage(chat_id=bot_chatID, text= message)
+    bot.sendDocument(chat_id=bot_chatID, document=open(url, 'rb'))
 
-    return response.json()
+    return jsonify("good")
 
 
 
 @app.route('/')
 def hello():
+
     return render_template('index.html')
 
 if __name__ == '__main__':

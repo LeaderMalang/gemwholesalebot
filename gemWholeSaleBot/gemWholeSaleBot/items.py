@@ -10,7 +10,7 @@ class GemwholesalebotItem(scrapy.Item):
     # define the fields for your item here like:
     title = scrapy.Field()
     image=scrapy.Field()
-    image_url=scrapy.Field()
+    image_urls=scrapy.Field()
     cost_price=scrapy.Field()
     catalogue_value=scrapy.Field()
     sold_at=scrapy.Field()

@@ -60,7 +60,7 @@ class GemwholesaleSpider(scrapy.Spider):
             items.update({
                 'title': title,
                 'image': image,
-                'image_url': image_url,
+                'image_urls': [image_url],
                 'cost_price': cost_price,
                 'catalogue_value': catalogue_value,
                 'sold_at': sold_at,
