@@ -1,10 +1,16 @@
 $(document).ready(function() {
-    $('a#calculate').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_getListing', {
-        a: $('input[name="a"]').val(),
-        b: $('input[name="b"]').val()
+    function BuyListings(){
+
+    }
+    $(document).on('click','.BuyListings', function() {
+        var link =$(this).attr('link');
+        var title=$(this).parent().next().html();
+        console.log(title,link)
+      $.getJSON($SCRIPT_ROOT + '/buyListing', {
+        lk: link,
+        tile: title
       }, function(data) {
-        $("#result").text(data.result);
+        alert('Going to leave this page')
       });
       return false;
     });
@@ -17,10 +23,14 @@ $(document).ready(function() {
             return "Yes";
         return "No";
     }
+    function getLinkBuy (data,type,full,meta) {
+        var html="<a  href='#' link='"+data+"''  class='btn btn-primary btn-sm BuyListings'>Buy</a>";
+        return html
+    }
     function getLink(data,type,full,meta){
-        if (meta['col']==5)
+        if (meta['col']==6)
             var html="<a target='_blank' href='"+data+"' class='btn btn-primary btn-sm'>Stock List</a>";
-        else if(meta['col']==7)
+        else if(meta['col']==8)
             var html="<a target='_blank' href='"+data+"' class='btn btn-primary btn-sm'>Parent Page</a>";
         else
             var html="<a target='_blank' href='"+data+"' class='btn btn-primary btn-sm'>Stock Link</a>";
@@ -35,6 +45,7 @@ $(document).ready(function() {
         //
         // add column definitions to map your json to the table
         "columns": [
+            {data: "parent_page",render:getLinkBuy},
             {data: "title"},
             {data: "image_url", render: getImg},
             {data: "cost_price"},
