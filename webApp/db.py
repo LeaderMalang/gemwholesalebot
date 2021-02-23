@@ -2,8 +2,8 @@ import mysql.connector
 class con():
     host = 'localhost'
     user = 'root'
-    password = ''
-    db = 'gemwholesale_db'
+    password = '123'
+    db = 'gembot'
     def __init__(self):
         self.connection = mysql.connector.connect(host=self.host, user=self.user, password=self.password, database=self.db, use_unicode=True,
                                           charset="utf8")
