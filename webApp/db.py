@@ -4,6 +4,7 @@ class con():
     user = 'gem'
     password = '512060@Ali'
     db = 'gembot'
+
     def __init__(self):
         self.connection = mysql.connector.connect(host=self.host, user=self.user, password=self.password, database=self.db, use_unicode=True,
                                           charset="utf8")
