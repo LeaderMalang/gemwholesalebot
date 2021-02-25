@@ -17,7 +17,7 @@ class GemwholesalebotPipeline:
         if not self.stock_exist(item,spider):
             if(self.insert(item,spider)):
                 print("Inserted New Record")
-                endpoint="http://127.0.0.1:5000/send_message?title="+item['title']+"&stock_list="+item['stock_list']
+                endpoint="http://109.228.60.191:5000/send_message?title="+item['title']+"&stock_list="+item['stock_list']
                 response=requests.get(endpoint)
                 print("Sending new listing and stock list",response)
             else:
