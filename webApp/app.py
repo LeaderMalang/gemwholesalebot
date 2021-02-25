@@ -3,8 +3,17 @@ from db import con
 import requests
 import telegram
 import pdfkit
+from selenium import webdriver
 app = Flask(__name__)
 
+@app.route('/buyListing')
+def buyListings():
+    link = request.args.get('lk')
+    title = request.args.get('tile')
+    browser = webdriver.Chrome('./chromedriver')
+    browser.get(link)
+    element=browser.find_elements_by_xpath("//*[contains(text(), '"+title+"')]")
+    print(element)
 
 @app.route('/_getListing')
 def getListing():
@@ -112,4 +121,4 @@ def hello():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
