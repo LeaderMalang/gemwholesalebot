@@ -20,8 +20,8 @@ class GemwholesaleSpider(scrapy.Spider):
     ]
 
     host = 'localhost'
-    user = 'gem'
-    password = '512060@Ali'
+    user = 'root'
+    password = ''
     db = 'gembot'
 
     def __init__(self):

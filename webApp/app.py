@@ -4,16 +4,37 @@ import requests
 import telegram
 import pdfkit
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 app = Flask(__name__)
 
 @app.route('/buyListing')
 def buyListings():
     link = request.args.get('lk')
     title = request.args.get('tile')
-    browser = webdriver.Chrome('./chromedriver')
+    options=webdriver.ChromeOptions()
+    options.add_argument("no-sandbox")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=800,600")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless")
+
+    browser = webdriver.Chrome('/usr/local/bin/chromedriver',options=options)
     browser.get(link)
-    element=browser.find_elements_by_xpath("//*[contains(text(), '"+title+"')]")
-    print(element)
+
+    element=browser.find_element_by_xpath("//*[contains(text(), '"+title+"')]")
+    parent1=element.find_element_by_xpath("..")
+    parent2=parent1.find_element_by_xpath("..")
+    parent=parent2.find_element_by_xpath("..")
+    add_cart=parent.find_element_by_xpath('//p/span/input')
+    browser.execute_script("arguments[0].click();", add_cart)
+
+    # try:
+    #     add_cart.click()
+    # except WebDriverException:
+    #     print("Element is not clickable")
+
+    #print(element)
+    return render_template('index.html')
 
 @app.route('/_getListing')
 def getListing():

@@ -12,7 +12,7 @@ settings = get_project_settings()
 runner = CrawlerRunner(settings)
 task = LoopingCall(lambda: runner.crawl(GemwholesaleSpider)
                    )
-task.start(100 * 10)
+task.start(50 * 10)
 reactor.run()
 
 # execute(['scrapy', 'crawl', 'gemwholesale'])
